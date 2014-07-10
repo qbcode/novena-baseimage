@@ -1,3 +1,5 @@
+NOVENA_KVERSION=3.16.0-rc2-28078-g286628e_1.2
+
 all:
 
 default:
@@ -59,10 +61,11 @@ novena.img: bootscripts/boot.scr uImage u-boot
 	sudo chroot /mnt apt-get clean -y
 
 	# install kernel binaries
-	sudo cp binaries/*.deb  /mnt/root
-	sudo chroot /mnt dpkg -i /root/linux-firmware-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
-	sudo chroot /mnt dpkg -i /root/linux-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
-	sudo chroot /mnt dpkg -i /root/linux-headers-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
+	sudo cp *${NOVENA_KVERSION}*.deb  /mnt/root
+	sudo cp linux-libc-dev_1.2_armhf.deb /mnt/root
+	sudo chroot /mnt dpkg -i /root/linux-firmware-image-${NOVENA_KVERSION}_armhf.deb
+	sudo chroot /mnt dpkg -i /root/linux-image-${NOVENA_KVERSION}_armhf.deb
+	sudo chroot /mnt dpkg -i /root/linux-headers-${NOVENA_KVERSION}_armhf.deb
 
 	# post install some configuration files	
 	sudo mkdir -p /mnt/etc/X11
@@ -75,8 +78,8 @@ novena.img: bootscripts/boot.scr uImage u-boot
 	sudo mount /dev/nbd0p1 /mnt/boot/bootloader
 	sudo cp novena-linux/arch/arm/boot/uImage /mnt/boot/bootloader/uImage
 	sudo cp novena-linux/arch/arm/boot/uImage /mnt/boot/bootloader/uImage.recovery
-	sudo cp arch/arm/boot/dts/imx6q-novena.dtb /mnt/boot/bootloader/uImage.dtb
-	sudo cp arch/arm/boot/dts/imx6q-novena.dtb /mnt/boot/bootloader/uImage.recovery.dtb
+	sudo cp novena-linux/arch/arm/boot/dts/imx6q-novena.dtb /mnt/boot/bootloader/uImage.dtb
+	sudo cp novena-linux/arch/arm/boot/dts/imx6q-novena.dtb /mnt/boot/bootloader/uImage.recovery.dtb
 	sudo cp bootscripts/boot.scr /mnt/boot/bootloader/boot.scr
 	sudo cp bootscripts/boot.scr /mnt/boot/bootloader/boot-default.scr
 
