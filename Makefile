@@ -19,7 +19,8 @@ novena-recovery.img: novena.img bootscripts/boot-recovery.scr bootscripts/boot.s
 
 # this is destructive for now
 novena.img: bootscripts/boot.scr uImage u-boot
-	qemu-img create novena.img 4000000000
+	#qemu-img create novena.img 4000000000
+	qemu-img create novena.img 3965190144
 	# sudo modprobe nbd max_part=16
 	sudo qemu-nbd --connect=/dev/nbd0 novena.img
 	sudo parted --script /dev/nbd0 -- mklabel msdos
