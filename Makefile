@@ -8,7 +8,8 @@ deps:
 	sudo apt-get install -y qemu-utils apt-cacher-ng build-essential less rsync lzop u-boot-tools git debhelper bc device-tree-compiler parted build-essential
 
 # The boot script is the only thing different in the recovery image
-novena-recovery.img: novena.img bootscripts/boot-recovery.scr bootscripts/boot.scr
+novena-recovery.img: bootscripts/boot-recovery.scr bootscripts/boot.scr
+	echo "Assuming novena.img is already created and functions"
 	cp novena.img novena-recovery.img
 	sudo qemu-nbd --connect=/dev/nbd0 novena-recovery.img
 	sudo mount /dev/nbd0p1 /mnt
@@ -129,7 +130,7 @@ sdcard:
 
 ## cleanup
 clean:
-	rm -f bootscripts/*.scr
+	-rm -f bootscripts/*.scr
 
 dist-clean: clean
 	-sudo umount -f /mnt/boot/bootloader
