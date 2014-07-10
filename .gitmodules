@@ -1,0 +1,9 @@
+[submodule "novena-eeprom"]
+	path = novena-eeprom
+	url = https://github.com/xobs/novena-eeprom.git
+[submodule "u-boot-imx6"]
+	path = u-boot-imx6
+	url = https://github.com/sutajiokousagi/u-boot-imx6.git
+[submodule "novena-linux"]
+	path = novena-linux
+	url = https://github.com/xobs/novena-linux.git
