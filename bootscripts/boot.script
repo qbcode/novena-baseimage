@@ -1,0 +1,16 @@
+mmc dev 1
+if fatload mmc 1 0x12000000 uImage
+then
+	fatload mmc 1 0x11ff0000 uImage.dtb
+	setenv bootargs console=${console},${baudrate} root=${mmcroot}
+	setenv bootargs console=ttymxc1,115200 earlyprintk root=/dev/mmcblk1p2 rootwait rootfstype=ext4 splash consoleblank=0
+else
+	mmc dev 0
+	fatload mmc 0 0x12000000 uImage
+	fatload mmc 0 0x11ff0000 uImage.dtb
+	setenv bootargs console=ttymxc1,115200 earlyprintk root=/dev/mmcblk0p2 rootwait rootfstype=ext4 splash consoleblank=0
+fi
+
+fdt addr 0x11ff0000; run prep_gbit; run prep_pcie; run prep_senoko; run prep_es8328; run prep_retina; run prep_pixelqi; run prep_hdmi
+
+bootm 0x12000000 - 0x11ff0000

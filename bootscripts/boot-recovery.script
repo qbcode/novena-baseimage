@@ -1,0 +1,17 @@
+setenv bootsrc mmc
+setenv bootdev 0
+${bootsrc} dev ${bootdev}
+
+if kbd
+then
+    setenv rec .recovery
+    setenv bootargs root=/dev/mmcblk0p2 rootwait rw consoleblank=0 splash
+else
+    setenv bootargs root=/dev/sda3 rootwait rw consoleblank=0 splash
+fi
+fatload ${bootsrc} ${bootdev} 0x12000000 uImage${rec}
+fatload ${bootsrc} ${bootdev} 0x11ff0000 uImage${rec}.dtb
+
+fdt addr 0x11ff0000; run prep_gbit; run prep_pcie; run prep_senoko; run prep_es8328; run prep_retina; run prep_pixelqi; run prep_hdmi
+
+bootm 0x12000000 - 0x11ff0000
