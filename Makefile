@@ -5,18 +5,18 @@ all:
 default:
 
 deps:
-	sudo apt-get install -y qemu-utils apt-cacher-ng build-essential less rsync lzop u-boot-tools git debhelper bc device-tree-compiler parted build-essential
+	sudo apt-get install -y qemu-utils apt-cacher-ng build-essential less rsync lzop u-boot-tools git debhelper bc device-tree-compiler parted build-essential kpartx
 
 # The boot script is the only thing different in the recovery image
 novena-recovery.img: bootscripts/boot-recovery.scr bootscripts/boot.scr
 	echo "Assuming novena.img is already created and functions"
 	cp novena.img novena-recovery.img
-	sudo losetup /dev/loop0 novena-recovery.img -o 1048576 --sizelimit 62914048
-	sudo mount /dev/loop0 /mnt
+	sudo kpartx -a -v novena.img
+	sudo mount /dev/mapper/loop0p1 /mnt
 	sudo cp bootscripts/boot-recovery.scr /mnt/boot.scr
 	sudo cp bootscripts/boot-recovery.scr /mnt/boot-recovery.scr
 	sudo umount /mnt
-	sudo losetup -d /dev/loop0
+	sudo kpartx -v -d novena.img
 
 # this is destructive for now
 novena.img: bootscripts/boot.scr uImage u-boot
@@ -30,19 +30,12 @@ novena.img: bootscripts/boot.scr uImage u-boot
 	#sudo parted --script /dev/loop0 -- set 1 boot on
 	sudo losetup -d /dev/loop0
 
-	# offset is the (start * 512)
-	# sizelimit is (end - start) * 512
-	# loop0 - offset = 512 * 2048
-	#         sizelimit = (124927 - 2048) * 512
-	# loop1 - offset = 512 * 124928
-	#         sizelimit = (7743487 - 124928) * 512
-	sudo losetup /dev/loop0 novena.img -o 1048576 --sizelimit 62914048
-	sudo mkfs.vfat /dev/loop0
-	sudo losetup /dev/loop1 novena.img -o 67108864 --sizelimit 3897556480
-	sudo mkfs.ext4 /dev/loop1
+	sudo kpartx -a -v novena.img
+	sudo mkfs.vfat /dev/mapper/loop0p1
+	sudo mkfs.ext4 /dev/mapper/loop0p2
 
 	# mount the fat32 and ext4 partition
-	sudo mount /dev/loop1 /mnt
+	sudo mount /dev/mapper/loop0p2 /mnt
 
 	# use local apt-cacher-ng proxy
 	sudo debootstrap --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
@@ -87,7 +80,7 @@ novena.img: bootscripts/boot.scr uImage u-boot
 
 	# setup boot loader and copy kernel
 	sudo mkdir -p /mnt/boot/bootloader
-	sudo mount /dev/loop0 /mnt/boot/bootloader
+	sudo mount /dev/mapper/loop0p1 /mnt/boot/bootloader
 	sudo cp novena-linux/arch/arm/boot/uImage /mnt/boot/bootloader/uImage
 	sudo cp novena-linux/arch/arm/boot/uImage /mnt/boot/bootloader/uImage.recovery
 	sudo cp novena-linux/arch/arm/boot/dts/imx6q-novena.dtb /mnt/boot/bootloader/uImage.dtb
@@ -104,13 +97,9 @@ novena.img: bootscripts/boot.scr uImage u-boot
 
 	sudo umount /mnt/boot/bootloader
 	sudo umount /mnt
-	sudo losetup -d /dev/loop0
-	sudo losetup -d /dev/loop1
+	sudo kpartx -v -d novena.img
 
-	# setup bootloader, don't really need losetup here
-	sudo losetup /dev/loop0 novena.img
-	sudo dd if=u-boot-imx6/u-boot.imx of=/dev/loop0 seek=2 bs=512 conv=notrunc
-	sudo losetup -d /dev/loop0
+	sudo dd if=u-boot-imx6/u-boot.imx of=novena.img seek=2 bs=512 conv=notrunc
 
 ## Boot scripts
 boot.scr: bootscripts/boot.scr
@@ -150,5 +139,5 @@ dist-clean: clean
 	-sudo umount -f /mnt/boot/bootloader
 	-sudo umount -f /mnt
 	-sudo losetup -d /dev/loop0
-	-sudo losetup -d /dev/loop1
+	-sudo kpartx -v -d novena.img
 	-rm -f novena.img novena-recovery.img
