@@ -11,7 +11,7 @@ deps:
 novena-recovery.img: bootscripts/boot-recovery.scr bootscripts/boot.scr
 	echo "Assuming novena.img is already created and functions"
 	cp novena.img novena-recovery.img
-	sudo losetup /dev/loop0 novena-recovery.img -o 1048576 --sizelimit 6606028
+	sudo losetup /dev/loop0 novena-recovery.img -o 1048576 --sizelimit 62914048
 	sudo mount /dev/loop0 /mnt
 	sudo cp bootscripts/boot-recovery.scr /mnt/boot.scr
 	sudo cp bootscripts/boot-recovery.scr /mnt/boot-recovery.scr
@@ -30,13 +30,13 @@ novena.img: bootscripts/boot.scr uImage u-boot
 	#sudo parted --script /dev/loop0 -- set 1 boot on
 	sudo losetup -d /dev/loop0
 
-	# offset is the (start sector * 512)
-	# sizelimit is (end sector * 512) - offset
+	# offset is the (start * 512)
+	# sizelimit is (end - start) * 512
 	# loop0 - offset = 512 * 2048
-	#         sizelimit = 512 * 131072 - offset
-	# loop1 - offiset = 512 * 124928
-	#         sizelimit = 512 * 7743487 - offset
-	sudo losetup /dev/loop0 novena.img -o 1048576 --sizelimit 6606028
+	#         sizelimit = (124927 - 2048) * 512
+	# loop1 - offset = 512 * 124928
+	#         sizelimit = (7743487 - 124928) * 512
+	sudo losetup /dev/loop0 novena.img -o 1048576 --sizelimit 62914048
 	sudo mkfs.vfat /dev/loop0
 	sudo losetup /dev/loop1 novena.img -o 67108864 --sizelimit 3897556480
 	sudo mkfs.ext4 /dev/loop1
