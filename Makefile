@@ -5,7 +5,7 @@ all:
 default:
 
 deps:
-	sudo apt-get install -y qemu-utils apt-cacher-ng build-essential less rsync lzop u-boot-tools git debhelper bc device-tree-compiler parted build-essential kpartx
+	sudo apt-get install -y qemu-utils apt-cacher-ng build-essential less rsync lzop u-boot-tools git debhelper bc device-tree-compiler parted kpartx
 
 # The boot script is the only thing different in the recovery image
 novena-recovery.img: bootscripts/boot-recovery.scr bootscripts/boot.scr
