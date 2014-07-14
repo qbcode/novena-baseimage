@@ -5,9 +5,9 @@ ${bootsrc} dev ${bootdev}
 if kbd
 then
     setenv rec .recovery
-    setenv bootargs root=/dev/mmcblk0p2 rootwait rw consoleblank=0 splash
+    setenv bootargs root=/dev/mmcblk0p2 rootwait rw consoleblank=0 splash console=ttymxc1,115200 earlyprintk
 else
-    setenv bootargs init=/sbin/init --no-log root=/dev/sda3 rootwait rw consoleblank=0 splash
+    setenv bootargs init=/sbin/init --no-log root=/dev/sda3 rootwait rw consoleblank=0 splash console=ttymxc1,115200 earlyprintk
 fi
 fatload ${bootsrc} ${bootdev} 0x12000000 uImage${rec}
 fatload ${bootsrc} ${bootdev} 0x11ff0000 uImage${rec}.dtb
