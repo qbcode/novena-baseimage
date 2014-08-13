@@ -1,4 +1,5 @@
-NOVENA_KVERSION=3.16.0-rc2-28078-g286628e_1.2
+NOVENA_KVERSION=3.16.0-rc2-00058-gdd3635d_1.2
+KERNEL_GIT_VERSION=dd3635dab34fcd65410b6a3513999de379a29d5e
 
 all:
 
@@ -115,12 +116,12 @@ bootscripts/boot-recovery.scr: bootscripts/boot-recovery.script
 uImage: novena-linux/arch/arm/boot/uImage
 
 novena-linux/arch/arm/boot/uImage:
-	cd novena-linux && git checkout v3.16-rc2-novena && make novena_defconfig && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
+	cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
 
 kerneldeb: linux-libc-dev_1.2_armhf.deb
 
 linux-libc-dev_1.2_armhf.deb:
-	cp files/debian-build.sh novena-linux && cd novena-linux && git checkout v3.16-rc2-novena && make novena_defconfig && ./debian-build.sh
+	cp files/debian-build.sh novena-linux && cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && ./debian-build.sh
 
 u-boot: u-boot-imx6/u-boot.imx
 
