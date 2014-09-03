@@ -12,12 +12,12 @@ deps:
 novena-recovery.img: bootscripts/boot-recovery.scr bootscripts/boot.scr
 	echo "Assuming novena.img is already created and functions"
 	cp novena.img novena-recovery.img
-	sudo kpartx -a -v novena.img
+	sudo kpartx -a -v novena-recovery.img
 	sudo mount /dev/mapper/loop0p1 /mnt
 	sudo cp bootscripts/boot-recovery.scr /mnt/boot.scr
 	sudo cp bootscripts/boot-recovery.scr /mnt/boot-recovery.scr
 	sudo umount /mnt
-	sudo kpartx -v -d novena.img
+	sudo kpartx -v -d novena-recovery.img
 
 # this is destructive for now
 novena.img: bootscripts/boot.scr uImage u-boot
