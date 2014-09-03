@@ -29,9 +29,9 @@ cp files/etc/network/interfaces /mnt/etc/network/interfaces
 cp files/boot-ubuntu.scr /boot/bootloader/boot.scr
 
 cp kernel/*deb /mnt/root
-chroot /mnt dpkg -i linux-firmware-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
-chroot /mnt dpkg -i linux-headers-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
-chroot /mnt dpkg -i linux-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
-chroot /mnt dpkg -i linux-libc-dev_1.2_armhf.deb
+chroot /mnt dpkg -i /root/linux-firmware-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
+chroot /mnt dpkg -i /root/linux-headers-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
+chroot /mnt dpkg -i /root/linux-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
+chroot /mnt dpkg -i /root/linux-libc-dev_1.2_armhf.deb
 
 echo "Now reboot"
