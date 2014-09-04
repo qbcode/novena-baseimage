@@ -17,7 +17,7 @@ mkfs.btrfs /dev/sda3
 
 mount /dev/sda3 /mnt
 
-debootstrap --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,dosfstools,parted,debootstrap,apt-cacher-ng wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
+debootstrap --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,dosfstools,parted,debootstrap,apt-cacher-ng,python wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
 
 echo root:kosagi | chroot /mnt /usr/sbin/chpasswd
 
