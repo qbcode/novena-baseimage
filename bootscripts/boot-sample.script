@@ -1,16 +1,14 @@
-setenv bootsrc mmc
-setenv bootdev 0
-${bootsrc} dev ${bootdev}
-
-if kbd
+mmc dev 1
+if fatload mmc 1 0x12000000 uImage
 then
-    setenv rec .recovery
-    setenv bootargs root=/dev/mmcblk1p2 rootwait rw consoleblank=0 splash console=ttymxc1,115200 earlyprintk
+	fatload mmc 1 0x11ff0000 uImage.dtb
+	setenv bootargs console=ttymxc1,115200 earlyprintk root=/dev/mmcblk1p2 rootwait rootfstype=ext4 splash consoleblank=0 init=/sbin/init
 else
-    setenv bootargs root=/dev/mmcblk0p2 rootwait rw consoleblank=0 splash console=ttymxc1,115200 earlyprintk
+	mmc dev 0
+	fatload mmc 0 0x12000000 uImage
+	fatload mmc 0 0x11ff0000 uImage.dtb
+	setenv bootargs console=ttymxc1,115200 earlyprintk root=/dev/mmcblk0p2 rootwait rootfstype=ext4 splash consoleblank=0 init=/sbin/init
 fi
-fatload ${bootsrc} ${bootdev} 0x12000000 uImage${rec}
-fatload ${bootsrc} ${bootdev} 0x11ff0000 uImage${rec}.dtb
 
 fdt addr 0x11ff0000; run prep_gbit; run prep_pcie; run prep_senoko; run prep_es8328; run prep_retina; run prep_pixelqi; run prep_hdmi
 
