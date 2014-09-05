@@ -4,7 +4,7 @@ echo "Please read this script and execute it manually"
 
 exit 1;
 
-apt-get install -u parted btrfs-tools debootstrap
+apt-get install -y parted btrfs-tools debootstrap
 
 parted --script /dev/sda -- mklabel msdos
 parted --script /dev/sda -- mkpart primary fat32 1 64
