@@ -19,3 +19,11 @@ commands require root.
 
 Have a look at the makefile to see how things work, it is currently a
 mess and can be cleaned up.
+
+Notes:
+------
+
+Alternative kernel:
+
+* https://github.com/linux4kix/linux-linaro-stable-mx6
+  * https://dl.dropboxusercontent.com/u/736509/imx_drm/3.14_imx_drm_config

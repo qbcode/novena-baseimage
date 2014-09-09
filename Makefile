@@ -116,7 +116,8 @@ bootscripts/boot-recovery.scr: bootscripts/boot-recovery.script
 uImage: novena-linux/arch/arm/boot/uImage
 
 novena-linux/arch/arm/boot/uImage:
-	cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
+	#cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
+	cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && cp ../custom.config .config && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
 
 kerneldeb: linux-libc-dev_1.2_armhf.deb
 
