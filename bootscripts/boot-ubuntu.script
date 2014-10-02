@@ -12,6 +12,6 @@ fi
 fatload ${bootsrc} ${bootdev} 0x12000000 uImage${rec}
 fatload ${bootsrc} ${bootdev} 0x11ff0000 uImage${rec}.dtb
 
-fdt addr 0x11ff0000; run prep_gbit; run prep_pcie; run prep_senoko; run prep_es8328; run prep_retina; run prep_pixelqi; run prep_hdmi; run reset_gpio
+fdt addr 0x11ff0000; run prep_gbit; run prep_pcie; run prep_senoko; run prep_es8328; run prep_retina; run prep_pixelqi; run prep_hdmi
 
 bootm 0x12000000 - 0x11ff0000
