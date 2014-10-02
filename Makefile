@@ -1,5 +1,5 @@
-NOVENA_KVERSION=3.16.0-rc2-00058-gdd3635d_1.2
-KERNEL_GIT_VERSION=dd3635dab34fcd65410b6a3513999de379a29d5e
+NOVENA_KVERSION=3.17.0-rc5-00429-g45b17f487_1.2
+KERNEL_GIT_VERSION=45b17f487dc6612ff4e7e4217fea2ce87d95ff0c
 
 all:
 
@@ -122,7 +122,8 @@ novena-linux/arch/arm/boot/uImage:
 kerneldeb: linux-libc-dev_1.2_armhf.deb
 
 linux-libc-dev_1.2_armhf.deb:
-	cp files/debian-build.sh novena-linux && cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && ./debian-build.sh
+	#cp files/debian-build.sh novena-linux && cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && ./debian-build.sh
+	cp files/debian-build.sh novena-linux && cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && cp ../custom.config .config && ./debian-build.sh
 
 u-boot: u-boot-imx6/u-boot.imx
 
