@@ -41,7 +41,7 @@ novena.img: bootscripts/boot.scr uImage u-boot
 	sudo mount /dev/mapper/loop0p2 /mnt
 
 	# use local apt-cacher-ng proxy
-	sudo debootstrap --components=wheezy-updates,main,wheezy --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,parted,debootstrap,apt-cacher-ng,python,i2c-tools,qemu-utils,build-essential,rsync,lzop,u-boot-tools,git,debhelper,bc,device-tree-compiler,kpartx,ca-certificates wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
+	sudo debootstrap --components=wheezy-updates,main,wheezy --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,parted,debootstrap,apt-cacher-ng,python,i2c-tools,qemu-utils,build-essential,rsync,lzop,u-boot-tools,git,debhelper,bc,device-tree-compiler,kpartx,ca-certificates,bash-completion wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
 
 	# special mount points to silence harmless warnings and errors
 	sudo mount --bind /dev/ /mnt/dev
@@ -119,12 +119,13 @@ uImage: novena-linux/arch/arm/boot/uImage
 
 novena-linux/arch/arm/boot/uImage:
 	#cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
-	cd novena-linux && git remote add qbcode git@github.com:qbcode/novena-linux.git
+	cd novena-linux && git remote add qbcode git@github.com:qbcode/novena-linux.git && git fetch qbcode
 	cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && cp ../custom.config .config && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
 
 kerneldeb: linux-libc-dev_1.2_armhf.deb
 
 linux-libc-dev_1.2_armhf.deb:
+	cd novena-linux && git remote add qbcode git@github.com:qbcode/novena-linux.git && git fetch qbcode
 	cp files/debian-build.sh novena-linux && cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && ./debian-build.sh
 
 u-boot: u-boot-imx6/u-boot.imx
