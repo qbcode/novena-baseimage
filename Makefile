@@ -39,7 +39,7 @@ novena.img: bootscripts/boot.scr uImage u-boot
 	sudo mount /dev/mapper/loop0p2 /mnt
 
 	# use local apt-cacher-ng proxy
-	sudo debootstrap --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,dosfstools,parted,debootstrap,apt-cacher-ng,python wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
+	sudo debootstrap --components=wheezy-updates,main,wheezy --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,parted,debootstrap,apt-cacher-ng,python,i2c-tools wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
 
 	# special mount points to silence harmless warnings and errors
 	sudo mount --bind /dev/ /mnt/dev
