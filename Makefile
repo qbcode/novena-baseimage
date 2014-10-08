@@ -119,13 +119,13 @@ uImage: novena-linux/arch/arm/boot/uImage
 
 novena-linux/arch/arm/boot/uImage:
 	#cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
-	cd novena-linux && git remote add qbcode git@github.com:qbcode/novena-linux.git && git fetch qbcode
+	# cd novena-linux && git remote add qbcode https://github.com/qbcode/novena-baseimage.git && git fetch qbcode
 	cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && cp ../custom.config .config && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
 
 kerneldeb: linux-libc-dev_1.2_armhf.deb
 
 linux-libc-dev_1.2_armhf.deb:
-	cd novena-linux && git remote add qbcode git@github.com:qbcode/novena-linux.git && git fetch qbcode
+	# cd novena-linux && git remote add qbcode https://github.com/qbcode/novena-baseimage.git && git fetch qbcode
 	cp files/debian-build.sh novena-linux && cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && ./debian-build.sh
 
 u-boot: u-boot-imx6/u-boot.imx
