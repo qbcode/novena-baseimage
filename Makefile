@@ -1,4 +1,6 @@
-NOVENA_KVERSION=3.16.0-rc2_1.2
+#NOVENA_KVERSION=3.16.0-rc2_1.2
+#NOVENA_KVERSION=3.16.0-rc2-00058-gdd3635d_1.2
+NOVENA_KVERSION=3.16.0-rc2-28078-gdd3635d_1.2
 KERNEL_GIT_VERSION=dd3635dab34fcd65410b6a3513999de379a29d5e
 
 all:
@@ -117,6 +119,7 @@ uImage: novena-linux/arch/arm/boot/uImage
 
 novena-linux/arch/arm/boot/uImage:
 	#cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && make novena_defconfig && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
+	cd novena-linux && git remote add qbcode git@github.com:qbcode/novena-linux.git
 	cd novena-linux && git checkout ${KERNEL_GIT_VERSION} && cp ../custom.config .config && make uImage LOADADDR=10008000 -j 4 && make ARCH=arm imx6q-novena.dtb
 
 kerneldeb: linux-libc-dev_1.2_armhf.deb
