@@ -9,15 +9,15 @@ apt-get install -y parted btrfs-tools debootstrap
 parted --script /dev/sda -- mklabel msdos
 parted --script /dev/sda -- mkpart primary fat32 1 64
 parted --script /dev/sda -- mkpart primary linux-swap 64 8256
-parted --script /dev/sda -- mkpart primary btrfs 8256 -0
+parted --script /dev/sda -- mkpart primary ext4 8256 -0
 
 mkfs.vfat /dev/sda1
 mkswap /dev/sda2
-mkfs.btrfs /dev/sda3
+mkfs.ext4 /dev/sda3
 
 mount /dev/sda3 /mnt
 
-debootstrap --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,dosfstools,parted,debootstrap,apt-cacher-ng,python wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
+debootstrap --components=wheezy-updates,main,wheezy --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,parted,debootstrap,apt-cacher-ng,python,i2c-tools,qemu-utils,build-essential,rsync,lzop,u-boot-tools,git,debhelper,bc,device-tree-compiler,kpartx,ca-certificates,bash-completion wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
 
 echo root:kosagi | chroot /mnt /usr/sbin/chpasswd
 
