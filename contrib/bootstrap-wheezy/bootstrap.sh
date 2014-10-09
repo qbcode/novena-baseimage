@@ -17,7 +17,7 @@ mkfs.ext4 /dev/sda3
 
 mount /dev/sda3 /mnt
 
-debootstrap --components=wheezy-updates,main,wheezy --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,parted,debootstrap,apt-cacher-ng,python,i2c-tools,qemu-utils,build-essential,rsync,lzop,u-boot-tools,git,debhelper,bc,device-tree-compiler,kpartx,ca-certificates,bash-completion wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
+debootstrap --components=wheezy-updates,main,wheezy --include=sudo,openssh-server,ntpdate,dosfstools,sysvinit,fbset,less,xserver-xorg-video-modesetting,task-xfce-desktop,hicolor-icon-theme,gnome-icon-theme,tango-icon-theme,i3-wm,i3status,keychain,avahi-daemon,avahi-dnsconfd,libnss-mdns,btrfs-tools,xfsprogs,parted,debootstrap,apt-cacher-ng,python,i2c-tools,qemu-utils,build-essential,rsync,lzop,u-boot-tools,git,debhelper,bc,device-tree-compiler,kpartx,ca-certificates,bash-completion,libfile-fcntllock-perl wheezy /mnt http://127.0.0.1:3142/ftp.ie.debian.org/debian/
 
 echo root:kosagi | chroot /mnt /usr/sbin/chpasswd
 
@@ -44,9 +44,9 @@ cp files/etc/default/locale /mnt/etc/default/locale
 rm /mnt/usr/sbin/policy-rc.d
 
 cp kernel/*deb /mnt/root
-chroot /mnt dpkg -i /root/linux-firmware-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
-chroot /mnt dpkg -i /root/linux-headers-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
-chroot /mnt dpkg -i /root/linux-image-3.16.0-rc2-28074-g8b39edb_1.2_armhf.deb
+chroot /mnt dpkg -i /root/linux-firmware-image-3.16.0-rc2-28078-gdd3635d_1.2_armhf.deb
+chroot /mnt dpkg -i /root/linux-headers-3.16.0-rc2-28078-gdd3635d_1.2_armhf.deb
+chroot /mnt dpkg -i /root/linux-image-3.16.0-rc2-28078-gdd3635d_1.2_armhf.deb
 chroot /mnt dpkg -i /root/linux-libc-dev_1.2_armhf.deb
 
 echo "Now reboot"
